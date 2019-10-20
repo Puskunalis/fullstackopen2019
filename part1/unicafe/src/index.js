@@ -13,30 +13,30 @@ const Button = (props) => (
   </button>
 )
 
-const Stat = (props) => (
-  <>
-    {props.text} {props.score} {props.suffix}<br></br>
-  </>
+const Statistic = (props) => (
+  <div>
+    {props.text} {props.value} {props.suffix}<br></br>
+  </div>
 )
 
 const Statistics = ({ good, neutral, bad }) => {
   if (good + neutral + bad === 0) {
     return (
-      <>
+      <div>
         No feedback given
-      </>
+      </div>
     )
   }
 
   return (
-    <>
-      <Stat text="good" score={good} />
-      <Stat text="neutral" score={neutral} />
-      <Stat text="bad" score={bad} />
-      <Stat text="all" score={good + neutral + bad} />
-      <Stat text="average" score={(good - bad) / (good + neutral + bad)} />
-      <Stat text="positive" score={100 * good / (good + neutral + bad)} suffix="%" />
-    </>
+    <div>
+      <Statistic text="good" value={good} />
+      <Statistic text="neutral" value={neutral} />
+      <Statistic text="bad" value={bad} />
+      <Statistic text="all" value={good + neutral + bad} />
+      <Statistic text="average" value={(good - bad) / (good + neutral + bad)} />
+      <Statistic text="positive" value={100 * good / (good + neutral + bad)} suffix="%" />
+    </div>
   )
 }
 
