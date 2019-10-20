@@ -15,7 +15,7 @@ const Button = (props) => (
 
 const Stat = (props) => (
   <>
-    {props.opinion} {props.score}<br></br>
+    {props.text} {props.score} {props.suffix}<br></br>
   </>
 )
 
@@ -32,9 +32,12 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <Header text="statistics" />
-      <Stat opinion="good" score={good} />
-      <Stat opinion="neutral" score={neutral} />
-      <Stat opinion="bad" score={bad} />
+      <Stat text="good" score={good} />
+      <Stat text="neutral" score={neutral} />
+      <Stat text="bad" score={bad} />
+      <Stat text="all" score={good + neutral + bad} />
+      <Stat text="average" score={(good - bad) / (good + neutral + bad)} />
+      <Stat text="positive" score={100 * good / (good + neutral + bad)} suffix="%" />
     </div>
   )
 }
