@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Person = ({ person }) => (
   <div>
@@ -55,6 +56,12 @@ const App = () => {
       return <Person key={person.name} person={person} />
     }
   }
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then((response) => setPersons(response.data))
+  }, [])
 
   return (
     <div>
