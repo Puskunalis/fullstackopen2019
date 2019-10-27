@@ -12,16 +12,16 @@ const CountryInfo = ({ country }) => (
   <div>
     <h1>{country.name}</h1>
     <div>capital {country.capital}</div>
-    <div>populaton {country.population}</div>
+    <div>population {country.population}</div>
     <h3>languages</h3>
     <ul>
       {country.languages.map((language) => <li key={language.name}>{language.name}</li>)}
     </ul>
-    <img src={country.flag} alt={`Flag of ${country.name}`} width="15%" height="15%"/>
+    <img src={country.flag} alt={`Flag of ${country.name}`} width="15%" height="15%" />
   </div>
 )
 
-const CountryList = ({ countries, search }) => {
+const CountryList = ({ countries, search, setSearch }) => {
   const searchResults = (country) => {
     if (country.name.toLowerCase().includes(search.toLowerCase())) {
       return country
@@ -38,7 +38,10 @@ const CountryList = ({ countries, search }) => {
 
   return (
     <div>
-      {filteredCountries.map((country) => <div key={country.name}>{country.name}</div>)}
+      {filteredCountries.map((country) => (
+        <div key={country.name}>
+          {country.name} <button onClick={() => setSearch(country.name)}>show</button>
+        </div>))}
     </div>
   )
 }
@@ -56,7 +59,7 @@ const App = () => {
   return (
     <div>
       <Search value={search} onChange={(event) => setSearch(event.target.value)} />
-      <CountryList countries={countries} search={search} />
+      <CountryList countries={countries} search={search} setSearch={setSearch} />
     </div>
   )
 }
