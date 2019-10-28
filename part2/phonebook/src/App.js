@@ -26,12 +26,7 @@ const Persons = (props) => (
 )
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
@@ -44,8 +39,10 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (!Object.values(persons).map((object) => object.name).includes(newName)) {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
+    if (!persons.find(person => person.name === newName)) {
+      axios
+        .post('http://localhost:3001/persons', { name: newName, number: newNumber })
+        .then(() => setPersons(persons.concat({ name: newName, number: newNumber })))
     } else {
       alert(`${newName} is already added to phonebook`)
     }
