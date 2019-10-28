@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 const baseUrl = 'http://localhost:3001/persons'
 
 const getAll = () => {
@@ -9,4 +10,8 @@ const create = newObject => {
   return axios.post(baseUrl, newObject)
 }
 
-export default { getAll, create }
+const remove = person => {
+  return axios.delete(`${baseUrl}/${person.id}`)
+}
+
+export default { getAll, create, remove }

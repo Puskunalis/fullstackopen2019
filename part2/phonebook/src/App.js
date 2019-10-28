@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
 
-const Person = ({ person }) => (
+const Person = ({ person, deletePerson }) => (
   <div>
-    {person.name} {person.number}
+    {person.name} {person.number} <button onClick={() => deletePerson(person)}>delete</button>
   </div>
 )
 
-const Filter = (props) => (
+const Filter = props => (
   <form>
     <div>filter shown with <input value={props.search} onChange={props.handleSearchChange} /></div>
   </form>
 )
 
-const PersonForm = (props) => (
+const PersonForm = props => (
   <form onSubmit={props.addPerson}>
     <div>name: <input value={props.newName} onChange={props.handleNameChange} /></div>
     <div>number: <input value={props.newNumber} onChange={props.handleNumberChange} /></div>
@@ -21,8 +21,8 @@ const PersonForm = (props) => (
   </form>
 )
 
-const Persons = (props) => (
-  props.persons.map(props.renderPerson)
+const Persons = ({ persons, renderPerson }) => (
+  persons.map(renderPerson)
 )
 
 const App = () => {
@@ -31,13 +31,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
-  const handleNameChange = (event) => setNewName(event.target.value)
+  const handleNameChange = event => setNewName(event.target.value)
 
-  const handleNumberChange = (event) => setNewNumber(event.target.value)
+  const handleNumberChange = event => setNewNumber(event.target.value)
 
-  const handleSearchChange = (event) => setSearch(event.target.value)
+  const handleSearchChange = event => setSearch(event.target.value)
 
-  const addPerson = (event) => {
+  const addPerson = event => {
     event.preventDefault()
 
     if (!persons.find(person => person.name === newName)) {
@@ -51,9 +51,17 @@ const App = () => {
     }
   }
 
-  const renderPerson = (person) => {
+  const renderPerson = person => {
     if (person.name.toLowerCase().includes(search)) {
-      return <Person key={person.name} person={person} />
+      return <Person key={person.name} person={person} deletePerson={deletePerson} />
+    }
+  }
+
+  const deletePerson = person => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personService
+        .remove(person)
+        .then(() => setPersons(persons.filter(p => p.id !== person.id)))
     }
   }
 
