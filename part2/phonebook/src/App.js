@@ -25,17 +25,49 @@ const Persons = ({ persons, renderPerson }) => (
   persons.map(renderPerson)
 )
 
+const Notification = ({ message }) => {
+  const style = {
+    color: 'red',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  if (message[0] === null) {
+    return null
+  }
+
+  if (message[1]) {
+    style.color = 'green'
+  }
+
+  return (
+    <div style={style}>
+      {message[0]}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState([null, true])
 
   const handleNameChange = event => setNewName(event.target.value)
 
   const handleNumberChange = event => setNewNumber(event.target.value)
 
   const handleSearchChange = event => setSearch(event.target.value)
+
+  const showNotification = (text, success) => {
+    setMessage([text, success])
+    setTimeout(() => setMessage([null, true]), 5000)
+  }
 
   const addPerson = event => {
     event.preventDefault()
@@ -47,11 +79,14 @@ const App = () => {
         personService
           .update({ ...samePerson, number: newNumber })
           .then(response => setPersons(persons.map(person => response.data.id === person.id ? response.data : person)))
+          .then(() => showNotification(`Changed number of ${newName}`, true))
+          .catch(() => showNotification(`Information of ${newName} has already been removed from server`, false))
       }
     } else {
       personService
         .create({ name: newName, number: newNumber })
         .then(response => setPersons(persons.concat(response.data)))
+        .then(() => showNotification(`Added ${newName}`, true))
     }
   }
 
@@ -78,6 +113,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
