@@ -60,6 +60,16 @@ app.post('/api/persons', (req, res) => {
   const person = req.body
   person.id = Math.floor(Math.random() * Math.floor(1000000))
 
+  const error = text => res.status(400).json({ error: text })
+
+  if (!person.name) {
+    return error('name is missing')
+  } else if (!person.number) {
+    return error('number is missing')
+  } else if (persons.find(p => p.name === person.name)) {
+    return error('name must be unique')
+  }
+
   persons = persons.concat(person)
 
   res.json(person)
