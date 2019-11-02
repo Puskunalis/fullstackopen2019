@@ -85,6 +85,31 @@ app.post('/api/persons', (req, res) => {
   res.json(person)
 })
 
+app.put('/api/persons/:id', (req, res) => {
+  const person = new Person({
+    name: req.body.name,
+    number: req.body.number
+  })
+
+  const error = text => res.status(400).json({ error: text })
+
+  if (!person.name) {
+    return error('name is missing')
+  } else if (!person.number) {
+    return error('number is missing')
+  }
+
+  Person.findByIdAndRemove(req.params.id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
+
+  person.save()
+
+  res.json(person)
+})
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
