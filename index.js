@@ -10,7 +10,7 @@ mongoose.set('useFindAndModify', false)
 
 app.use(bodyParser.json())
 
-morgan.token('body', function (req, res) {
+morgan.token('body', function (req) {
   if (req.method == 'POST') {
     return JSON.stringify(req.body)
   } else {
@@ -51,7 +51,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
@@ -80,7 +80,7 @@ app.post('/api/persons', (req, res, next) => {
     })
 })
 
-app.put('/api/persons/:id', (req, res) => {
+app.put('/api/persons/:id', (req, res, next) => {
   const person = new Person({
     name: req.body.name,
     number: req.body.number
@@ -95,7 +95,7 @@ app.put('/api/persons/:id', (req, res) => {
   }
 
   Person.findByIdAndRemove(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
