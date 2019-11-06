@@ -13,7 +13,7 @@ blogsRouter.post('/', async (req, res) => {
   }
 
   if (req.body.title === undefined || req.body.url === undefined) {
-    return res.status(400).json({ 'error': 'title or url missing'})
+    return res.status(400).json({ 'error': 'title or url missing' })
   }
 
   const blog = new Blog(req.body)
@@ -21,6 +21,15 @@ blogsRouter.post('/', async (req, res) => {
   const result = await blog.save()
 
   res.status(201).json(result)
+})
+
+blogsRouter.delete('/:id', async (req, res) => {
+  try {
+    await Blog.findByIdAndRemove(req.params.id)
+    res.status(204).end()
+  } catch {
+    res.status(400).json({ 'error': 'blog not found' })
+  }
 })
 
 module.exports = blogsRouter
