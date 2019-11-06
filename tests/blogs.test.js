@@ -96,6 +96,22 @@ test('new blogs are added', async () => {
   expect(blogsAtEnd.map(blog => blog.title)).toContain('Go To Statement Considered Harmful blah blah blah')
 })
 
+test('likes default to zero', async () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful blah blah blah',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html'
+  }
+
+  const res = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  expect(res.body.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
