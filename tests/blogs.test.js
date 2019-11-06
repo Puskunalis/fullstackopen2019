@@ -112,6 +112,18 @@ test('likes default to zero', async () => {
   expect(res.body.likes).toBe(0)
 })
 
+test('make sure title and url properties exist', async () => {
+  const newBlog = {
+    author: 'Edsger W. Dijkstra',
+    likes: 5
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
