@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "watch": "nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
+    "watch": "NODE_ENV=development nodemon index.js",
     "lint": "eslint .",
-    "test": "jest --verbose"
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,8 @@
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
-    "npm-install-missing": "^0.1.4"
+    "npm-install-missing": "^0.1.4",
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node"
