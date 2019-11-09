@@ -1,12 +1,13 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const Create = ({ blogs, title, author, url, setBlogs, setTitle, setAuthor, setUrl }) => {
+const Create = ({ showNotification, blogs, title, author, url, setBlogs, setTitle, setAuthor, setUrl }) => {
   const createBlog = async event => {
     event.preventDefault()
     const newBlog = { 'title': title, 'author': author, 'url': url }
     const response = await blogService.create(newBlog)
     setBlogs(blogs.concat(response))
+    showNotification(`a new blog ${title} by ${author} added`, true)
   }
 
   return (

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Create from './components/Create'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
+  const [message, setMessage] = useState([null, true])
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -12,6 +14,11 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const showNotification = (text, success) => {
+    setMessage([text, success])
+    setTimeout(() => setMessage([null, true]), 5000)
+  }
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -45,8 +52,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+
+      setMessage([null, true])
     } catch (exception) {
-      console.log('Wrong credentials')
+      showNotification('wrong username or password', false)
     }
   }
 
@@ -83,6 +92,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={message} />
         {loginForm()}
       </div>
     )
@@ -92,12 +102,14 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
+      <Notification message={message} />
+
       <p>
         {user.username} logged in
         <button onClick={logout}>logout</button>
       </p>
 
-      <Create blogs={blogs} title={title} author={author} url={url} setBlogs={setBlogs} setTitle={setTitle} setAuthor={setAuthor} setUrl={setUrl} />
+      <Create showNotification={showNotification} blogs={blogs} title={title} author={author} url={url} setBlogs={setBlogs} setTitle={setTitle} setAuthor={setAuthor} setUrl={setUrl} />
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
