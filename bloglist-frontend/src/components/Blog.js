@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, sendLike }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -24,7 +24,7 @@ const Blog = ({ blog }) => {
       </div>
       <div style={showWhenVisible}>
         {blog.url}<br />
-        {blog.likes} likes<button>like</button><br />
+        {blog.likes} likes<button onClick={async () => await sendLike(blog)}>like</button><br />
         added by {blog.user.name}
       </div>
     </div>
