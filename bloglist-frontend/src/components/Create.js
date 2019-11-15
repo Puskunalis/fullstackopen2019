@@ -30,7 +30,7 @@ const Create = ({ showNotification, blogs, title, author, url, setBlogs, setTitl
         </div>
         <div>
           url:
-        <input
+          <input
             value={url}
             onChange={({ target }) => setUrl(target.value)}
           />
