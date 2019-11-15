@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, sendLike }) => {
+const Blog = ({ blog, sendLike, remove }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -25,7 +25,8 @@ const Blog = ({ blog, sendLike }) => {
       <div style={showWhenVisible}>
         {blog.url}<br />
         {blog.likes} likes<button onClick={async () => await sendLike(blog)}>like</button><br />
-        added by {blog.user.name}
+        added by {blog.user.name}<br />
+        <button onClick={async () => await remove(blog)}>remove</button>
       </div>
     </div>
   )
