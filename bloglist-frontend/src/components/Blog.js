@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, sendLike, remove }) => {
+const Blog = ({ blog, sendLike, remove, user }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
+  const showButton = { display: blog.user.username === user.username ? '' : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -26,7 +27,7 @@ const Blog = ({ blog, sendLike, remove }) => {
         {blog.url}<br />
         {blog.likes} likes<button onClick={async () => await sendLike(blog)}>like</button><br />
         added by {blog.user.name}<br />
-        <button onClick={async () => await remove(blog)}>remove</button>
+        <button style={showButton} onClick={async () => await remove(blog)}>remove</button>
       </div>
     </div>
   )
