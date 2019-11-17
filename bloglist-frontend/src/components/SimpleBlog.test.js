@@ -32,4 +32,13 @@ describe('<SimpleBlog />', () => {
     expect(component.container).toHaveTextContent('' + blog.likes)
   })
 
+  test('like button works', () => {
+    const button = component.getByText('like')
+
+    fireEvent.click(button)
+    fireEvent.click(button)
+
+    expect(mockHandler.mock.calls.length).toBe(2)
+  })
+
 })
