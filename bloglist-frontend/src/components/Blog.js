@@ -20,10 +20,10 @@ const Blog = ({ blog, sendLike, remove, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleVisibility()}>
+      <div onClick={() => toggleVisibility()} className="blog">
         {blog.title} {blog.author}
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="togglableContent">
         {blog.url}<br />
         {blog.likes} likes<button onClick={async () => await sendLike(blog)}>like</button><br />
         added by {blog.user.name}<br />
