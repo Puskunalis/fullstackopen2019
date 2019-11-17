@@ -20,4 +20,22 @@ describe('<App />', () => {
     expect(component.container).toHaveTextContent('login')
     expect(component.container).not.toHaveTextContent('blogs')
   })
+
+  test('if user is logged in, blogs are rendered', async () => {
+    const user = {
+      username: 'tester',
+      token: '1231231214',
+      name: 'Donald Tester'
+    }
+    
+    localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+
+    const component = render(
+      <App />
+    )
+    component.rerender(<App />)
+
+    expect(component.container).not.toHaveTextContent('login')
+    expect(component.container).toHaveTextContent('blogs')
+  })
 })
