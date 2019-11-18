@@ -64,15 +64,21 @@ const App = () => {
     }
   }
 
+  const removeReset = field => {
+    const clone = Object.assign({}, field)
+    delete clone.reset
+    return clone
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
         username
-        <input {...username} />
+        <input {...removeReset(username)} />
       </div>
       <div>
         password
-        <input {...password} />
+        <input {...removeReset(password)} />
       </div>
       <button type="submit">login</button>
     </form>
