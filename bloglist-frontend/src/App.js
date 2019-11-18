@@ -3,9 +3,9 @@ import Blog from './components/Blog'
 import Create from './components/Create'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import blogService from './services/blogs'
+//import blogService from './services/blogs'
 import loginService from './services/login'
-import { useField } from './hooks/index'
+import { useField, useResource } from './hooks/index'
 
 const App = () => {
   const [message, setMessage] = useState([null, true])
@@ -16,6 +16,7 @@ const App = () => {
   const [url, setUrl] = useState('')
   const username = useField('text')
   const password = useField('password')
+  const blogService = useResource('http://localhost:3003/api/blogs')
 
   const showNotification = (text, success) => {
     setMessage([text, success])
