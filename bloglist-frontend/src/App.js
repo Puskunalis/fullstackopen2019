@@ -55,9 +55,8 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
 
-      // This is probably very wrong and evil
-      username.onChange({ target: '' })
-      password.onChange({ target: '' })
+      username.reset()
+      password.reset()
 
       setMessage([null, true])
     } catch (exception) {
