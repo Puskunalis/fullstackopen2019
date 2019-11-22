@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
@@ -8,12 +9,20 @@ const App = props => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      <Filter store={props.store} />
-      {props.store.getState().notification ? <Notification store={props.store} /> : ''}
-      <AnecdoteForm store={props.store} />
-      <AnecdoteList store={props.store} />
+      <Filter />
+      {props.notification ? <Notification /> : ''}
+      <AnecdoteForm />
+      <AnecdoteList />
     </div>
   )
 }
 
-export default App
+const mapStateToProps = state => {
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification,
+    filter: state.filter
+  }
+}
+
+export default connect(mapStateToProps)(App)
