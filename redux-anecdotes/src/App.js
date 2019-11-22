@@ -8,9 +8,9 @@ import Filter from './components/Filter'
 const App = props => {
   return (
     <div>
-      <h2>Anecdotes</h2>
+      <h1>Programming anecdotes</h1>
       <Filter />
-      {props.notification ? <Notification /> : ''}
+      <Notification />
       <AnecdoteForm />
       <AnecdoteList />
     </div>

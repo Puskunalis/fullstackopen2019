@@ -4,7 +4,7 @@ import { setFilter } from '../reducers/filterReducer'
 
 const Filter = props => {
   const handleChange = event => {
-    props.store.dispatch(setFilter(event.target.value))
+    props.setFilter(event.target.value)
   }
 
   const style = {
@@ -18,4 +18,7 @@ const Filter = props => {
   )
 }
 
-export default connect()(Filter)
+export default connect(
+  null,
+  { setFilter }
+)(Filter)

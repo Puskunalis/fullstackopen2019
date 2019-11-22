@@ -5,13 +5,13 @@ import { createNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = props => {
   const showNotification = message => {
-    props.store.dispatch(createNotification(message))
-    setTimeout(() => props.store.dispatch(createNotification(null)), 5000)
+    props.createNotification(message)
+    setTimeout(() => props.createNotification(null), 5000)
   }
 
   const addAnecdote = event => {
     event.preventDefault()
-    props.store.dispatch(createAnecdote(event.target.anecdote.value))
+    props.createAnecdote(event.target.anecdote.value)
     showNotification(`created '${event.target.anecdote.value}'`)
     event.target.anecdote.value = ''
   }
@@ -27,4 +27,7 @@ const AnecdoteForm = props => {
   )
 }
 
-export default connect()(AnecdoteForm)
+export default connect(
+  null,
+  { createNotification, createAnecdote }
+)(AnecdoteForm)
