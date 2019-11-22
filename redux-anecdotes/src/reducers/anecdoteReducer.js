@@ -47,7 +47,8 @@ export const createAnecdote = content => ({
 })
 
 export const addVote = id => ({
-  type: 'VOTE', data: { id: id }
+  type: 'VOTE',
+  data: { id }
 })
 
 export default anecdoteReducer
