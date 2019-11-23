@@ -6,14 +6,9 @@ import { createNotification } from '../reducers/notificationReducer'
 const AnecdoteList = props => {
   const anecdotes = props.visibleAnecdotes.sort((a, b) => b.votes - a.votes)
 
-  const showNotification = message => {
-    props.createNotification(message)
-    setTimeout(() => props.createNotification(null), 5000)
-  }
-
   const vote = anecdote => {
     props.addVote(anecdote.id)
-    showNotification(`you voted '${anecdote.content}'`)
+    props.createNotification(`you voted '${anecdote.content}'`, 5)
   }
 
   return (

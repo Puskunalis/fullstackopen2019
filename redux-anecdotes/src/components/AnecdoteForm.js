@@ -4,16 +4,11 @@ import { createAnecdote } from '../reducers/anecdoteReducer'
 import { createNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = props => {
-  const showNotification = message => {
-    props.createNotification(message)
-    setTimeout(() => props.createNotification(null), 5000)
-  }
-
   const addAnecdote = async event => {
     event.preventDefault()
 
     const content = event.target.anecdote.value
-    showNotification(`created '${content}'`)
+    props.createNotification(`created '${content}'`, 5)
     event.target.anecdote.value = ''
 
     props.createAnecdote(content)
