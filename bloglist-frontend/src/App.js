@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Blog from './components/Blog'
 import Create from './components/Create'
@@ -10,16 +11,22 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { createNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import blogService from './services/blogs'
+import userService from './services/users'
 
 const App = props => {
   const username = useField('text')
   const password = useField('password')
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
+    const getUsers = async () => {
+      const response = await userService.getAll()
+      setUsers(response)
+    }
+    getUsers()
+
     props.initializeBlogs()
-  }, [])
 
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -89,22 +96,50 @@ const App = props => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Router>
+        <div>
+          <h2>blogs</h2>
 
-      {props.notification && <Notification message={props.notification} />}
+          {props.notification && <Notification message={props.notification} />}
 
-      <p>
-        {props.user.name} logged in
-        <button onClick={logout}>logout</button>
-      </p>
+          <p>
+            {props.user.name} logged in
+            <button onClick={logout}>logout</button>
+          </p>
 
-      <Togglable buttonLabel="new blog">
-        <Create />
-      </Togglable>
+          <Route exact path="/" render={() => (
+            <div>
+              <Togglable buttonLabel="new blog">
+                <Create />
+              </Togglable>
 
-      {props.blog.map(blog =>
-        <Blog key={blog.id} blog={blog} user={props.user} />
-      )}
+              {props.blog.map(blog =>
+                <Blog key={blog.id} blog={blog} user={props.user} />
+              )}
+            </div>
+          )} />
+
+          <Route exact path="/users" render={() => (
+            <div>
+              <h1>Users</h1>
+              <table>
+                <tbody>
+                  <tr key="123">
+                    <td></td>
+                    <td><b>blogs created</b></td>
+                  </tr>
+                  {users.map(user => (
+                    <tr key={user.id}>
+                      <td>{user.name}</td>
+                      <td>{user.blogs.length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )} />
+        </div>
+      </Router>
     </div>
   )
 }
