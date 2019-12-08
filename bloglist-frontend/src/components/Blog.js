@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addLike, removeBlog } from '../reducers/blogReducer'
 
@@ -20,7 +21,7 @@ const Blog = props => {
   return (
     <div style={blogStyle}>
       <div onClick={() => toggleVisibility()} className="blog">
-        <a href={`/blogs/${props.blog.id}`}>{props.blog.title} {props.blog.author}</a>
+        <Link to={`/blogs/${props.blog.id}`}>{props.blog.title} {props.blog.author}</Link>
       </div>
     </div>
   )

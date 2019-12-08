@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Blog from './components/Blog'
 import Create from './components/Create'
@@ -100,18 +100,23 @@ const App = props => {
   }
 
   if (users.length > 0 && props.blog.length > 0) {
+    const padding = { padding: 3 }
+
     return (
       <div>
         <Router>
           <div>
-            <h2>blogs</h2>
+            <p style={{ padding: 3, background: 'LightGray' }}>
+              <Link style={padding} to="/">blogs</Link>
+
+              <Link style={padding} to="/users">users</Link>
+
+              {props.user.name} logged in <button onClick={logout}>logout</button>
+            </p>
 
             {props.notification && <Notification message={props.notification} />}
 
-            <p>
-              {props.user.name} logged in
-            <button onClick={logout}>logout</button>
-            </p>
+            <h1>blog app</h1>
 
             <Route exact path="/" render={() => (
               <div>
@@ -136,7 +141,7 @@ const App = props => {
                     </tr>
                     {users.map(user => (
                       <tr key={user.id}>
-                        <td><a href={`/users/${user.id}`}>{user.name}</a></td>
+                        <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
                         <td>{user.blogs.length}</td>
                       </tr>
                     ))}
@@ -162,7 +167,7 @@ const App = props => {
               try {
                 const blog = props.blog.filter(b => b.id === match.params.id)[0]
                 const showButton = { display: blog.user.username === props.user.username ? '' : 'none' }
-                
+
                 return (
                   <div>
                     <h1>{blog.title}</h1>
