@@ -16,7 +16,7 @@ describe('<Blog />', () => {
     user: user
   }
 
-  const uselessFunc = blog => undefined
+  const uselessFunc = () => undefined
 
   let component
 

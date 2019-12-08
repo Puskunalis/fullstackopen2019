@@ -2,22 +2,22 @@ import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
-    case 'LIKE':
-      const changedBlog = action.data
+  case 'LIKE':
+    const changedBlog = action.data
 
-      return state.map(blog =>
-        blog.id !== changedBlog.id ? blog : { ...changedBlog, user: blog.user }
-      ).sort((a, b) => b.likes - a.likes)
-    case 'CREATE':
-      return state.concat(action.data).sort((a, b) => b.likes - a.likes)
-    case 'INIT_BLOGS':
-      return action.data.sort((a, b) => b.likes - a.likes)
-    case 'REMOVE':
-      return state.filter(blog => blog.id !== action.data)
-    case 'ADD_COMMENT':
-      return state.map(blog => blog.id === action.data.id ? action.data : blog)
-    default:
-      return state
+    return state.map(blog =>
+      blog.id !== changedBlog.id ? blog : { ...changedBlog, user: blog.user }
+    ).sort((a, b) => b.likes - a.likes)
+  case 'CREATE':
+    return state.concat(action.data).sort((a, b) => b.likes - a.likes)
+  case 'INIT_BLOGS':
+    return action.data.sort((a, b) => b.likes - a.likes)
+  case 'REMOVE':
+    return state.filter(blog => blog.id !== action.data)
+  case 'ADD_COMMENT':
+    return state.map(blog => blog.id === action.data.id ? action.data : blog)
+  default:
+    return state
   }
 }
 
@@ -61,9 +61,7 @@ export const removeBlog = blog => {
       })
     }
   } else {
-    return async dispatch => {
-
-    }
+    return async () => ''
   }
 }
 
