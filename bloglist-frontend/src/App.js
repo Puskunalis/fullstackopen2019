@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Blog from './components/Blog'
 import Create from './components/Create'
@@ -7,7 +7,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import { useField } from './hooks/index'
-import { initializeBlogs } from './reducers/blogReducer'
+import { initializeBlogs, addLike, removeBlog } from './reducers/blogReducer'
 import { createNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import blogService from './services/blogs'
@@ -84,6 +84,11 @@ const App = props => {
     window.localStorage.clear()
   }
 
+  const removeBlogHelper = blog => {
+    props.removeBlog(blog)
+
+  }
+
   if (props.user === '') {
     return (
       <div>
@@ -94,7 +99,7 @@ const App = props => {
     )
   }
 
-  if (users.length > 0) {
+  if (users.length > 0 && props.blog.length > 0) {
     return (
       <div>
         <Router>
@@ -152,6 +157,27 @@ const App = props => {
                 </div>
               )
             }} />
+
+            <Route exact path="/blogs/:id" render={({ match }) => {
+              try {
+                const blog = props.blog.filter(b => b.id === match.params.id)[0]
+                const showButton = { display: blog.user.username === props.user.username ? '' : 'none' }
+                
+                return (
+                  <div>
+                    <h1>{blog.title}</h1>
+                    <a href={blog.url}>{blog.url}</a><br />
+                    {blog.likes} likes<button onClick={() => props.addLike(blog)}>like</button><br />
+                    added by {blog.user.name ? blog.user.name : props.user.name}<br />
+                    <button style={blog.user.name ? showButton : { display: '' }} onClick={() => removeBlogHelper(blog)}>remove</button>
+                  </div>
+                )
+              } catch (e) {
+                return (
+                  <Redirect to="/" />
+                )
+              }
+            }} />
           </div>
         </Router>
       </div>
@@ -171,4 +197,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { initializeBlogs, createNotification, setUser })(App)
+export default connect(mapStateToProps, { initializeBlogs, createNotification, setUser, addLike, removeBlog })(App)
