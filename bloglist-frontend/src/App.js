@@ -95,7 +95,7 @@ const App = props => {
     )
   }
 
-  if (users.length > 0 && props.blog.length > 0) {
+  if (users.length !== undefined && props.blog.length !== undefined) {
     const padding = { padding: 30 }
 
     return (
