@@ -84,11 +84,6 @@ const App = props => {
     window.localStorage.clear()
   }
 
-  const removeBlogHelper = blog => {
-    props.removeBlog(blog)
-
-  }
-
   if (props.user === '') {
     return (
       <div>
@@ -174,7 +169,12 @@ const App = props => {
                     <a href={blog.url}>{blog.url}</a><br />
                     {blog.likes} likes<button onClick={() => props.addLike(blog)}>like</button><br />
                     added by {blog.user.name ? blog.user.name : props.user.name}<br />
-                    <button style={blog.user.name ? showButton : { display: '' }} onClick={() => removeBlogHelper(blog)}>remove</button>
+                    <button style={blog.user.name ? showButton : { display: '' }} onClick={() => props.removeBlog(blog)}>remove</button>
+
+                    <h2>comments</h2>
+                    <ul>
+                      {blog.comments.map(comment => <li key={Math.random()}>{comment}</li>)}
+                    </ul>
                   </div>
                 )
               } catch (e) {

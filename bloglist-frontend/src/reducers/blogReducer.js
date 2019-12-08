@@ -59,6 +59,10 @@ export const removeBlog = blog => {
         data: blog.id
       })
     }
+  } else {
+    return async dispatch => {
+      
+    }
   }
 }
 
