@@ -70,11 +70,11 @@ const App = props => {
     <form onSubmit={handleLogin}>
       <div>
         username
-        <input {...removeReset(username)} />
+        <input id="username" {...removeReset(username)} />
       </div>
       <div>
         password
-        <input {...removeReset(password)} />
+        <input id="password" {...removeReset(password)} />
       </div>
       <button type="submit">login</button>
     </form>

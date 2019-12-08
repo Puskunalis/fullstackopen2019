@@ -31,17 +31,17 @@ const Create = props => {
       <form style={{ border: 'solid', borderWidth: 3, borderColor: 'green', backgroundColor: 'lightGreen' }} onSubmit={addBlog}>
         <p>
           title:
-          <input name="title" />
+          <input id="title" name="title" />
         </p>
         <p>
           author:
-          <input name="author" />
+          <input id="author" name="author" />
         </p>
         <p>
           url:
-          <input name="url" />
+          <input id="url" name="url" />
         </p>
-        <button type="submit">create</button>
+        <button id="create-button" type="submit">create</button>
       </form>
     </div >
   )
