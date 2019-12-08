@@ -176,7 +176,7 @@ const App = props => {
                   <div>
                     <h1>{blog.title}</h1>
                     <a href={blog.url}>{blog.url}</a><br />
-                    {blog.likes} likes<button onClick={() => props.addLike(blog)}>like</button><br />
+                    {blog.likes} likes<button id="like-button" onClick={() => props.addLike(blog)}>like</button><br />
                     added by {blog.user.name ? blog.user.name : props.user.name}<br />
                     <button style={blog.user.name ? showButton : { display: '' }} onClick={() => props.removeBlog(blog)}>remove</button>
 
