@@ -94,53 +94,72 @@ const App = props => {
     )
   }
 
-  return (
-    <div>
-      <Router>
-        <div>
-          <h2>blogs</h2>
+  if (users.length > 0) {
+    return (
+      <div>
+        <Router>
+          <div>
+            <h2>blogs</h2>
 
-          {props.notification && <Notification message={props.notification} />}
+            {props.notification && <Notification message={props.notification} />}
 
-          <p>
-            {props.user.name} logged in
+            <p>
+              {props.user.name} logged in
             <button onClick={logout}>logout</button>
-          </p>
+            </p>
 
-          <Route exact path="/" render={() => (
-            <div>
-              <Togglable buttonLabel="new blog">
-                <Create />
-              </Togglable>
+            <Route exact path="/" render={() => (
+              <div>
+                <Togglable buttonLabel="new blog">
+                  <Create />
+                </Togglable>
 
-              {props.blog.map(blog =>
-                <Blog key={blog.id} blog={blog} user={props.user} />
-              )}
-            </div>
-          )} />
+                {props.blog.map(blog =>
+                  <Blog key={blog.id} blog={blog} user={props.user} />
+                )}
+              </div>
+            )} />
 
-          <Route exact path="/users" render={() => (
-            <div>
-              <h1>Users</h1>
-              <table>
-                <tbody>
-                  <tr key="123">
-                    <td></td>
-                    <td><b>blogs created</b></td>
-                  </tr>
-                  {users.map(user => (
-                    <tr key={user.id}>
-                      <td>{user.name}</td>
-                      <td>{user.blogs.length}</td>
+            <Route exact path="/users" render={() => (
+              <div>
+                <h1>Users</h1>
+                <table>
+                  <tbody>
+                    <tr key="123">
+                      <td></td>
+                      <td><b>blogs created</b></td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )} />
-        </div>
-      </Router>
-    </div>
+                    {users.map(user => (
+                      <tr key={user.id}>
+                        <td><a href={`/users/${user.id}`}>{user.name}</a></td>
+                        <td>{user.blogs.length}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )} />
+
+            <Route exact path="/users/:id" render={({ match }) => {
+              const user = users.filter(user => user.id === match.params.id)[0]
+              return (
+                <div>
+                  <h1>{user.name}</h1>
+                  <h2>added blogs</h2>
+                  <ul>
+                    {user.blogs.map(blog => <li key={blog.id}>{blog.title}</li>)}
+                  </ul>
+                </div>
+              )
+            }} />
+          </div>
+        </Router>
+      </div>
+    )
+  }
+
+  return (
+    <div></div>
   )
 }
 
