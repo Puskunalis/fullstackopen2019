@@ -12,6 +12,7 @@ import { createNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import blogService from './services/blogs'
 import userService from './services/users'
+import './style.css'
 
 const App = props => {
   const username = useField('text')
@@ -95,13 +96,13 @@ const App = props => {
   }
 
   if (users.length > 0 && props.blog.length > 0) {
-    const padding = { padding: 3 }
+    const padding = { padding: 30 }
 
     return (
       <div>
         <Router>
           <div>
-            <p style={{ padding: 3, background: 'LightGray' }}>
+            <p className="header">
               <Link style={padding} to="/">blogs</Link>
 
               <Link style={padding} to="/users">users</Link>
@@ -111,11 +112,11 @@ const App = props => {
 
             {props.notification && <Notification message={props.notification} />}
 
-            <h1>blog app</h1>
+            <h1 className="blog-app">blog app</h1>
 
             <Route exact path="/" render={() => (
               <div>
-                <Togglable buttonLabel="new blog">
+                <Togglable style={{ textAlign: 'center' }} buttonLabel="new blog">
                   <Create />
                 </Togglable>
 
@@ -136,7 +137,7 @@ const App = props => {
                     </tr>
                     {users.map(user => (
                       <tr key={user.id}>
-                        <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
+                        <td style={{ padding: 5 }}><Link to={`/users/${user.id}`}>{user.name}</Link></td>
                         <td>{user.blogs.length}</td>
                       </tr>
                     ))}

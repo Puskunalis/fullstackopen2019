@@ -7,11 +7,13 @@ const Blog = props => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
-    paddingTop: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingLeft: 2,
     border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+    borderWidth: 2,
+    margin: 3,
+    backgroundColor: 'lightBlue'
   }
 
   const toggleVisibility = () => {
@@ -21,7 +23,7 @@ const Blog = props => {
   return (
     <div style={blogStyle}>
       <div onClick={() => toggleVisibility()} className="blog">
-        <Link to={`/blogs/${props.blog.id}`}>{props.blog.title} {props.blog.author}</Link>
+        <Link style={{ fontSize: 25 }} to={`/blogs/${props.blog.id}`}>{props.blog.title} {props.blog.author}</Link>
       </div>
     </div>
   )

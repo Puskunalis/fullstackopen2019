@@ -1,0 +1,52 @@
+.blog-app {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 50px;
+  letter-spacing: -2px;
+  word-spacing: 2px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none solid rgb(68, 68, 68);
+  font-style: italic;
+  font-variant: small-caps;
+  text-transform: none;
+  margin: -5px;
+  text-align: center;
+}
+
+button {
+  padding: 5px;
+  margin: 5px 5px 5px 5px;
+  -moz-transform: skew(-20deg, 0deg);
+  -webkit-transform: skew(-20deg, 0deg);
+  -o-transform: skew(-20deg, 0deg);
+  -ms-transform: skew(-20deg, 0deg);
+  transform: skew(-20deg, 0deg);
+  color: rgb(200, 65, 30); font-size: 12px;
+}
+
+.header {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 20px;
+  color: #000000;
+  font-weight: 700;
+  font-style: italic;
+  font-variant: normal;
+  background: lightGray;
+}
+
+body {
+  background: lightCyan;
+}
+
+h2 {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 20px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+}

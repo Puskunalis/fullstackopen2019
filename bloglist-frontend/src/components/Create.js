@@ -21,25 +21,29 @@ const Create = props => {
     event.target.url.value = ''
   }
 
+  const style = {
+    textAlign: 'center'
+  }
+
   return (
-    <div>
+    <div style={style}>
       <h2>create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
+      <form style={{ border: 'solid', borderWidth: 3, borderColor: 'green', backgroundColor: 'lightGreen' }} onSubmit={addBlog}>
+        <p>
           title:
           <input name="title" />
-        </div>
-        <div>
+        </p>
+        <p>
           author:
           <input name="author" />
-        </div>
-        <div>
+        </p>
+        <p>
           url:
           <input name="url" />
-        </div>
+        </p>
         <button type="submit">create</button>
       </form>
-    </div>
+    </div >
   )
 }
 
