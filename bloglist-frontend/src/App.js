@@ -7,7 +7,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import { useField } from './hooks/index'
-import { initializeBlogs, addLike, removeBlog } from './reducers/blogReducer'
+import { initializeBlogs, addLike, removeBlog, addComment } from './reducers/blogReducer'
 import { createNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import blogService from './services/blogs'
@@ -163,6 +163,14 @@ const App = props => {
                 const blog = props.blog.filter(b => b.id === match.params.id)[0]
                 const showButton = { display: blog.user.username === props.user.username ? '' : 'none' }
 
+                const addComment = event => {
+                  event.preventDefault()
+
+                  props.addComment(blog, event.target.comment.value)
+
+                  event.target.comment.value = ''
+                }
+
                 return (
                   <div>
                     <h1>{blog.title}</h1>
@@ -172,6 +180,12 @@ const App = props => {
                     <button style={blog.user.name ? showButton : { display: '' }} onClick={() => props.removeBlog(blog)}>remove</button>
 
                     <h2>comments</h2>
+
+                    <form onSubmit={addComment}>
+                      <input type="text" name="comment"></input>
+                      <button type="submit">add comment</button>
+                    </form>
+
                     <ul>
                       {blog.comments.map(comment => <li key={Math.random()}>{comment}</li>)}
                     </ul>
@@ -202,4 +216,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { initializeBlogs, createNotification, setUser, addLike, removeBlog })(App)
+export default connect(mapStateToProps, { initializeBlogs, addComment, createNotification, setUser, addLike, removeBlog })(App)
