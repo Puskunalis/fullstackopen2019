@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import Login from './components/Login'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
@@ -19,7 +20,10 @@ const ALL_BOOKS = gql`
   {
     allBooks {
       title
-      author
+      author {
+        name
+        born
+      }
       published
     }
   }
@@ -27,14 +31,11 @@ const ALL_BOOKS = gql`
 
 const ADD_BOOK = gql`
   mutation addBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
-    addBook(
-      title: $title,
-      author: $author,
-      published: $published,
-      genres: $genres
-    ) {
+    addBook(title: $title, author: $author, published: $published, genres: $genres) {
       title
-      author
+      author {
+        name
+      }
       published
       genres
     }
@@ -54,8 +55,20 @@ const EDIT_AUTHOR = gql`
   }
 `
 
+const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(
+      username: $username
+      password: $password
+    ) {
+      value
+    }
+  }
+`
+
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [user, setUser] = useState(window.localStorage.getItem('user'))
 
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
@@ -78,6 +91,24 @@ const App = () => {
     onError: handleError,
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]
   })
+
+  const [login] = useMutation(LOGIN, {
+    onError: handleError
+  })
+
+  if (user === null) {
+    return (
+      <div>
+        {errorMessage &&
+          <div style={{ color: 'red' }}>
+            {errorMessage}
+          </div>
+        }
+
+        <Login login={login} setUser={setUser} />
+      </div>
+    )
+  }
 
   return (
     <div>

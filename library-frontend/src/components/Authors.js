@@ -12,8 +12,9 @@ const Authors = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
+
     await props.editAuthor({
-      variables: { name, year: +year }
+      variables: { name: name !== '' ? name : authors[0].name, year: +year }
     })
 
     setName('')
