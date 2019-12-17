@@ -66,7 +66,7 @@ const LOGIN = gql`
   }
 `
 
-const App = () => {
+const App = props => {
   const [page, setPage] = useState('authors')
   const [user, setUser] = useState(window.localStorage.getItem('user'))
 
@@ -96,6 +96,12 @@ const App = () => {
     onError: handleError
   })
 
+  const logout = () => {
+    setUser(null)
+    localStorage.clear()
+    props.resetStore()
+  }
+
   if (user === null) {
     return (
       <div>
@@ -122,6 +128,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={logout}>logout</button>
       </div>
 
       <Authors show={page === 'authors'} result={authors} editAuthor={editAuthor} />

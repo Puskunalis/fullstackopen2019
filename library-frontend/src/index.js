@@ -20,9 +20,13 @@ const client = new ApolloClient({
   }
 })
 
+const resetStore = () => {
+  client.resetStore()
+}
+
 ReactDOM.render(
   <ApolloProvider client={client} >
-    <App />
+    <App resetStore={resetStore} />
   </ApolloProvider>,
   document.getElementById('root')
 )
