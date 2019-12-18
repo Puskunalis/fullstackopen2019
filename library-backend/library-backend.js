@@ -131,7 +131,7 @@ const resolvers = {
 
       const bookQuery = await Book.findOne({ title: args.title }).populate('author')
 
-      pubsub.publish('BOOK_ADDED', { bookAdded: bookQuery })
+      pubsub.publish('BOOK_ADDED', { bookAdded: { ...bookQuery, id: bookQuery._id } })
 
       return bookQuery
     },

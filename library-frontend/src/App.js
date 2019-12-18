@@ -27,6 +27,7 @@ const ALL_BOOKS = gql`
       }
       published
       genres
+      id
     }
   }
 `
@@ -40,6 +41,7 @@ const ADD_BOOK = gql`
       }
       published
       genres
+      id
     }
   }
 `
@@ -94,6 +96,8 @@ const App = props => {
   const [page, setPage] = useState('authors')
   const [user, setUser] = useState(window.localStorage.getItem('user'))
 
+  const client = useApolloClient()
+
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
   const me = useQuery(ME)
@@ -107,14 +111,33 @@ const App = props => {
     }, 10000)
   }
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => 
+      set.map(p => p.id).includes(object._id)
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      dataInStore.allBooks.push(addedBook)
+
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: dataInStore
+      })
+    }   
+  }
+
   const [addBook] = useMutation(ADD_BOOK, {
     onError: handleError,
-    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]
+    refetchQueries: [{ query: ALL_AUTHORS }],
+    update: (store, response) => {
+      updateCacheWith(response.data.addBook)
+    }
   })
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     onError: handleError,
-    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]
+    refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
   const [login] = useMutation(LOGIN, {
@@ -130,6 +153,7 @@ const App = props => {
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       window.alert(`New book added: ${subscriptionData.data.bookAdded.title}`)
+      updateCacheWith(subscriptionData.data.bookAdded)
     }
   })
 
