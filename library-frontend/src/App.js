@@ -4,7 +4,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommend from './components/Recommend'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation, useSubscription, useApolloClient } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
 const ALL_AUTHORS = gql`
@@ -76,6 +76,20 @@ const ME = gql`
   } 
 `
 
+const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      title
+      author {
+        name
+        born
+      }
+      published
+      genres
+    }
+  }
+`
+
 const App = props => {
   const [page, setPage] = useState('authors')
   const [user, setUser] = useState(window.localStorage.getItem('user'))
@@ -112,6 +126,12 @@ const App = props => {
     localStorage.clear()
     props.resetStore()
   }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      window.alert(`New book added: ${subscriptionData.data.bookAdded.title}`)
+    }
+  })
 
   if (user === null) {
     return (
