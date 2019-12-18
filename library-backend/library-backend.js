@@ -95,10 +95,7 @@ const resolvers = {
     me: (root, args, { currentUser }) => currentUser
   },
   Author: {
-    bookCount: async (root) => {
-      const books = await Book.find({ author: root._id })
-      return books.length
-    }
+    bookCount: async (root) => root.books.length
   },
   Mutation: {
     addBook: async (root, args, { currentUser }) => {
@@ -130,6 +127,8 @@ const resolvers = {
       }
 
       const bookQuery = await Book.findOne({ title: args.title }).populate('author')
+
+      await Author.findOneAndUpdate({ _id: author._id }, { $push: { books: bookQuery._id } })
 
       pubsub.publish('BOOK_ADDED', { bookAdded: { ...bookQuery, id: bookQuery._id } })
 
